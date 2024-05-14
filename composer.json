@@ -1,0 +1,6 @@
+{
+    "require": {
+        "payos/payos": "^1.0",
+        "illuminate/http": "^10.48"
+    }
+}
