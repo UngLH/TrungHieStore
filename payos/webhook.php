@@ -16,7 +16,6 @@ try {
     if ($webhookData['data']['description'] == "VQRIO123") {
         return true;
     }
-
     $response = $payOS->verifyPaymentWebhookData($webhookData);
     $orderCode = (int) $webhookData['data']['orderCode'];
     $payOSOrderQuery = "SELECT * FROM tbl_pay_os_order WHERE payos_order_code='$orderCode'";
