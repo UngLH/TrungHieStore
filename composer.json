@@ -1,6 +1,6 @@
 {
-    "require": {
-        "payos/payos": "^1.0",
-        "illuminate/http": "^10.48"
-    }
+  "require": {
+    "payos/payos": "^1.0",
+    "nesbot/carbon": "^2.72"
+  }
 }

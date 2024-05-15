@@ -2,7 +2,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 include (__DIR__ . '/../admin/config/config.php');
-require (__DIR__ . '/../Carbon/autoload.php');
 
 use PayOS\PayOS;
 use Carbon\Carbon;
@@ -34,14 +33,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         $response = $payOS->createPaymentLink($data);
-        echo $response;
-
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();
         $id_khachhang = $_SESSION['id_khachhang'];
         $code_order = rand(0, 9999);
-        $insert_cart_registered = "INSERT INTO tbl_cart_registered (id_khachhang, code_cart, cart_status, cart_date, payos_order_code) VALUES ('$id_khachhang', '$code_order', 1, '$now', '$orderCode')";
+        $insert_cart_registered = "INSERT INTO tbl_cart_registered (id_khachhang, code_cart, cart_status, cart_date) VALUES ('$id_khachhang', '$code_order', 1, '$now')";
         $cart_query = mysqli_query($mysqli, $insert_cart_registered);
         if ($cart_query) {
+
+            $insertedID = mysqli_insert_id($mysqli);
+            $insert_pay_os = "INSERT INTO tbl_pay_os_order (payos_order_code, cart_type, order_id) 
+            VALUES ('$orderCode', 1, '$insertedID')";
+            mysqli_query($mysqli, $insert_pay_os);
+
             foreach ($_SESSION['cart'] as $key => $value) {
                 $id_sanpham = $value['id'];
                 $soluong = $value['soluong'];

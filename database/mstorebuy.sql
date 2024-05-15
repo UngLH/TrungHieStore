@@ -111,6 +111,21 @@ INSERT INTO `tbl_cart_details` (`id_cart_details`, `code_cart`, `id_sp`, `soluon
 (38, '1557', 43, 2),
 (39, '1557', 3, 1);
 
+
+
+-- --------------------------------------------------------
+
+--
+-- Cấu trúc bảng cho bảng `tbl_pay_os_order`
+--
+CREATE TABLE `tbl_pay_os_order` (
+  `id_payos_order` int(11) NOT NULL AUTO_INCREMENT,
+  `payos_order_code` int(11) NOT NULL,
+  `cart_type` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  PRIMARY KEY (`id_payos_order`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 -- --------------------------------------------------------
 
 --
