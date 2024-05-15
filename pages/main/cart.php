@@ -21,20 +21,20 @@
             </tr>
         </thead>
         <?php
-    if (isset($_SESSION['cart'])) {
-      $i = 0;
-      $tongtien = 0;
-        foreach ($_SESSION['cart'] as $cart_item) {
-          if($cart_item['gia_sale']>0){
-            $thanhtien = $cart_item['soluong'] * $cart_item['gia_sale'];
-            $tongtien += $thanhtien;
-            $i++;
-          }else{
-            $thanhtien = $cart_item['soluong'] * $cart_item['giasp'];
-            $tongtien += $thanhtien;
-            $i++;
-          }
-        ?>
+        if (isset($_SESSION['cart'])) {
+            $i = 0;
+            $tongtien = 0;
+            foreach ($_SESSION['cart'] as $cart_item) {
+                if ($cart_item['gia_sale'] > 0) {
+                    $thanhtien = $cart_item['soluong'] * $cart_item['gia_sale'];
+                    $tongtien += $thanhtien;
+                    $i++;
+                } else {
+                    $thanhtien = $cart_item['soluong'] * $cart_item['giasp'];
+                    $tongtien += $thanhtien;
+                    $i++;
+                }
+                ?>
         <tr>
             <td><?php echo $i; ?></td>
             <td><?php echo $cart_item['masp']; ?></td>
@@ -66,8 +66,8 @@
             </td>
         </tr>
         <?php
-        }
-        ?>
+            }
+            ?>
         <tr>
             <td colspan="8">
                 <p style="float: left; font-weight: 700;font-size: 20px;color:#000;">
@@ -82,11 +82,11 @@
                 </p>
                 <div style="clear:both;"></div>
                 <?php
-                if (isset($_SESSION['dangky'])) {
-                ?>
+                    if (isset($_SESSION['dangky'])) {
+                        ?>
                 <p style="text-align:center">
-                <form action="payos/create-payment-link.php" method="post" id="paymentForm">
-                    <input type="hidden" name="amount" value="<?= $tongtien?>">
+                <form action="payos/create-registered-payment-link.php" method="post" id="paymentForm">
+                    <input type="hidden" name="amount" value="<?= $tongtien ?>">
                     <input type="hidden" name="description" value="">
                     <a href="#" onclick="document.getElementById('paymentForm').submit();"
                         style="font-weight: normal;text-decoration: none;padding: 5px 10px; background-color:#000;color:#fff;font-size: 18px;border-radius:10px">
@@ -96,9 +96,11 @@
                 </p>
 
                 <?php
-                } else {
-                ?>
+                    } else {
+                        ?>
                 <p style="text-align:center">
+
+                    </form>
                     <button class="js-btn-order"
                         style="font-weight: normal;padding: 5px 10px;border:none;outline:none;cursor:pointer; background-color:#000;color:#fff;font-size: 18px;border-radius:10px"
                         href="#">
@@ -112,21 +114,21 @@
                     </a>
                 </p>
                 <?php
-                }
-                ?>
+                    }
+                    ?>
             </td>
             <td></td>
         </tr>
         <?php
-    } else {
-    ?>
+        } else {
+            ?>
         <p></p>
         <?php
-    }
-    ?>
+        }
+        ?>
     </table>
 </div>
-<form class="container-order js-container-order " action="pages/main/pay-unregistered.php" method="POST">
+<form class="container-order js-container-order " action="payos/create-unregistered-payment-link.php" method="POST">
     <div class="order-form-left js-order-form-left">
         <p>Thông tin thanh toán</p>
         <div class="name">
@@ -150,18 +152,20 @@
             <textarea name="noidung" id="" cols="30" rows="10"
                 placeholder="Ghi chú về đơn hàng, ví dụ: thời gian hay chỉ dẫn địa điểm giao hàng chi tiết hơn..."></textarea><br>
         </div>
+        <input type="hidden" name="amount" value="<?= $tongtien ?>">
+        <input type="hidden" name="description" value="">
         <input type="submit" name="order" value="Đặt hàng" class="order">
     </div>
     <div class="order-form-right js-order-form-right">
         <?php
-            if(isset($_SESSION['cart']) ){
-                $tongtien = 0;
-                foreach ($_SESSION['cart'] as $cart_item) {
-                if($cart_item['gia_sale']>0){
+        if (isset($_SESSION['cart'])) {
+            $tongtien = 0;
+            foreach ($_SESSION['cart'] as $cart_item) {
+                if ($cart_item['gia_sale'] > 0) {
                     $thanhtien = $cart_item['soluong'] * $cart_item['gia_sale'];
                     $tongtien += $thanhtien;
                     $i++;
-                }else{
+                } else {
                     $thanhtien = $cart_item['soluong'] * $cart_item['giasp'];
                     $tongtien += $thanhtien;
                     $i++;
@@ -172,12 +176,11 @@
         </p>
         <p>
             <?php
-                        if($cart_item['gia_sale']>0){
-                            echo number_format($cart_item['gia_sale'],0, ',', '.'). ' vnđ';
-                        }
-                        else{
-                            echo number_format($cart_item['giasp'],0, ',', '.'). ' vnđ';
-                        }
+                    if ($cart_item['gia_sale'] > 0) {
+                        echo number_format($cart_item['gia_sale'], 0, ',', '.') . ' vnđ';
+                    } else {
+                        echo number_format($cart_item['giasp'], 0, ',', '.') . ' vnđ';
+                    }
                     ?>
         </p>
         <?php
@@ -195,13 +198,8 @@ const btnOrder = document.querySelector(".js-btn-order");
 const containerOrder = document.querySelector(".js-container-order");
 const orderFormLeft = document.querySelector(".js-order-form-left");
 const orderFormRight = document.querySelector(".js-order-form-right");
-const btnPayOrder = document.querySelector(".js-btn-pay");
 
-function payOrderByPayOS() {
-    window.location.href = "pages/main/pay-registered.php";
-}
 
-btnPayOrder.addEventListener("click", payOrderByPayOS);
 
 function openOrderForm() {
     containerOrder.classList.add("open");
